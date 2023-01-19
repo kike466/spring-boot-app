@@ -14,6 +14,21 @@
 	<name>spring-boot-jpa-h2</name>
 	<description>Spring Boot JPA + H2 database example - CRUD Rest Apis</description>
 
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<sonar.host.url>
+					http://sonarqube:9000
+				</sonar.host.url>
+				<sonar.login>sqa_fbde4ba6e595cf2622926a78245df871d6dc84bb</sonar.login>
+			</properties>
+		</profile>
+	</profiles>
+
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -47,6 +62,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.9.1.2184</version>
 			</plugin>
 		</plugins>
 	</build>
