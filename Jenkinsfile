@@ -5,6 +5,11 @@ pipeline{
         }
     }
 
+    environment {
+        registryCredential='docker-hub-credentials'
+        registryBackend = 'enriquemartinezgalvan/backend-demo'
+    }
+
     stages {
         stage('Build Project') {
           steps {
@@ -32,6 +37,24 @@ pipeline{
             }
           }
         }
+
+        stage('Push Image to Docker Hub') {
+            steps {
+                script {
+                    dockerImage = docker.build registryBackend + ":latest"
+                    docker.withRegistry( '', registryCredential) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+   }
+
+   post {
+       always {
+           sh "docker logout"
+           sh "docker rmi -f " + registryBackend + ":latest"
+       }
    }
 
 }
